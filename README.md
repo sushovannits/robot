@@ -56,6 +56,7 @@
 - There is validation on inputs
 - Running multiple file command in same session does not include a reset in between
 - There are some test files in `test_files`
+- The `file` command was introduced because vorpal does not have any inbuilt way to pipe commands from bash
 
 ## Unit Test
 ```
