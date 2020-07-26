@@ -1,0 +1,6 @@
+place 2 2 north
+right
+left
+move
+right
+move

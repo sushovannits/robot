@@ -1,0 +1,6 @@
+place 0 0 north
+move
+move
+move
+move
+move

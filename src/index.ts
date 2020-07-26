@@ -84,7 +84,3 @@ Object.keys(commandDescription).forEach((cmd: string) => {
 });
 
 vorpal.delimiter(emojify('robot')).show();
-
-export function checkSize(): string | undefined {
-  return process.env.TABLE_SIZE;
-}
