@@ -1,4 +1,4 @@
-# Tomogotchi
+# Robot
 A virtual robot game on table top
 <!-- toc -->
 
@@ -26,7 +26,6 @@ A virtual robot game on table top
 - emoji support in terminal
 
 ## How To Play
-![](video/out.gif)
 ```
  yarn install
  yarn run start
@@ -42,11 +41,11 @@ A virtual robot game on table top
 
 ## Snapshots
 - bot is prevented from falling off
-  ![](images/bot-falls-off-heading-north.gif) 
+  ![](images/bot-falls-off-heading-north.png) 
 - ignore any command when bot has not been intialized
-  ![](images/ignore-when-not-init.gif) 
+  ![](images/ignore-when-not-init.png) 
 - normal navigation
-  ![](images/normal-navigation.gif) 
+  ![](images/normal-navigation.png) 
 
 ## Implementation Details
 - [Vorpal](https://vorpal.js.org/) is used for cli farmework
