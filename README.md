@@ -1,7 +1,6 @@
 # Robot
-A virtual robot game on table top
+🤖 A virtual robot game on table top
 <!-- toc -->
-
 - [Overview](#overview)
 - [System Requirements](#system-requirements)
 - [How To Play](#how-to-play)
@@ -41,10 +40,13 @@ A virtual robot game on table top
 
 ## Snapshots
 - bot is prevented from falling off
+  
   ![](images/bot-falls-off-heading-north.png) 
 - ignore any command when bot has not been intialized
+  
   ![](images/ignore-when-not-init.png) 
 - normal navigation
+  
   ![](images/normal-navigation.png) 
 
 ## Implementation Details
