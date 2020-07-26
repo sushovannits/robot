@@ -50,7 +50,7 @@ describe('game control handles commands correctly', () => {
     ];
     directionAndStartPos.forEach(([x, y, d]: [number, number, Direction]) => {
       game.currentPos = new Position(x, y, d);
-      const result = [...Array(tableSize).keys()].map(_ =>
+      const result = [...Array(tableSize).keys()].map(() =>
         game.handle(Command.MOVE),
       );
       expect(result[result.length - 1]).toContain(
