@@ -16,7 +16,7 @@
 - `report` tells the current position of the bot
 - `left`, `right` rotates the bot by 90 degrees
 - The game always prevents the bot from falling off
-- If the bot is not placed in a vlid position all commands are ignored with an error
+- If the bot is not placed in a valid position all commands are ignored with an error
 - `file <filename>` commands lets you run a file containing each command in a line (__Empty lines are not tolerated in the file__)
 
 ## System Requirements
@@ -42,7 +42,7 @@
 - bot is prevented from falling off
   
   ![](images/bot-falls-off-heading-north.png) 
-- ignore any command when bot has not been intialized
+- ignore any command when bot has not been initialized
   
   ![](images/ignore-when-not-init.png) 
 - normal navigation
@@ -50,8 +50,9 @@
   ![](images/normal-navigation.png) 
 
 ## Implementation Details
-- [Vorpal](https://vorpal.js.org/) is used for cli farmework
+- [Vorpal](https://vorpal.js.org/) is used for cli framework
 - Jest is used for test
+- eslint
 - Configure table size in `.env` file
 - There is validation on inputs
 - Running multiple file command in same session does not include a reset in between
