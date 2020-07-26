@@ -11,6 +11,7 @@
     "prettier"
     ],
     "rules": {
+      "no-unused-vars": [2, {"args": "all", "argsIgnorePattern": "^_"}],
       "no-console": 1,
       "prettier/prettier": 2
     },

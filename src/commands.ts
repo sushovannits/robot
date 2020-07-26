@@ -1,12 +1,7 @@
-import { isEnum } from 'class-validator';
-export enum Cmd {
+export enum Command {
   MOVE = 'MOVE',
   PLACE = 'PLACE',
-  SHOW = 'SHOW',
+  REPORT = 'REPORT',
   LEFT = 'LEFT',
   RIGHT = 'RIGHT',
-}
-
-export function isValidCommand(command: string): boolean {
-  return isEnum(command, Cmd);
 }

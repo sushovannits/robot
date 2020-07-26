@@ -1,3 +1,4 @@
+// Order is important here for supporting left and right
 export enum Direction {
   NORTH = 'NORTH',
   EAST = 'EAST',

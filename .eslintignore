@@ -4,3 +4,4 @@ node_modules
 build
 # don't lint nyc coverage output
 coverage
+lib

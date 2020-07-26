@@ -1,10 +1,10 @@
 import { Table } from './table';
-import { Cmd } from './commands';
+import { Command } from './commands';
 import { Position } from './position';
 import chalk from 'chalk';
 import emoji from 'node-emoji';
 
-function errorEmojify(message: string): string {
+export function errorEmojify(message: string): string {
   return emoji.emojify(':x: ' + message);
 }
 
@@ -19,32 +19,31 @@ export class Game {
     this.table = new Table();
   }
 
-  handle(cmd: Cmd, newPos?: Position): string {
-    try {
-      const currentPosIsValid = this.table.isValid(this.currentPos);
-      if (
-        cmd === Cmd.PLACE ||
-        (currentPosIsValid.isValid && this.currentPos !== null)
-      ) {
-        const derivedPos = this.table.getNextPosition(
-          this.currentPos as Position,
-          cmd,
-          newPos,
-        );
-        const derivedPosIsValid = this.table.isValid(derivedPos);
-        if (derivedPosIsValid.isValid) {
-          this.currentPos = derivedPos;
-          return tickEmojify(`OK: ${JSON.stringify(this.currentPos)}`);
-        }
-        return errorEmojify(
-          chalk.red.bgBlack(`New position ${derivedPosIsValid.error}`),
+  handle(cmd: Command, newPos?: Position): string {
+    let error = null;
+    let result = 'OK';
+    const currentPosIsValid = this.table.isValid(this.currentPos);
+    if (
+      cmd === Command.PLACE || // when placing the bot current position does not matter
+      (currentPosIsValid.isValid && this.currentPos !== null) // check current position
+    ) {
+      const derivedPos = this.table.getNextPosition(
+        this.currentPos as Position,
+        cmd,
+        newPos,
+      );
+      const derivedPosIsValid = this.table.isValid(derivedPos); // check new position
+      if (derivedPosIsValid.isValid) {
+        this.currentPos = derivedPos;
+        result = tickEmojify(`OK: ${JSON.stringify(this.currentPos)}`);
+      } else {
+        error = errorEmojify(
+          chalk.red.bgBlack(`new position ${derivedPosIsValid.error}`),
         );
       }
-      return errorEmojify(
-        `The current positon ${currentPosIsValid.error} is invalid`,
-      );
-    } catch (err) {
-      return `Invalid command due to ${err.toString()}`;
+    } else {
+      error = errorEmojify(`current position ${currentPosIsValid.error}`);
     }
+    return error || result;
   }
 }

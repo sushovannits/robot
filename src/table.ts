@@ -1,34 +1,46 @@
 import { Position } from './position';
-import { Cmd } from './commands';
+import { Command } from './commands';
 import { Direction } from './direction';
 import { TABLE_SIZE } from './config';
 
-export const INVALID_POSITION_ERROR = 'invalid position';
+export const INVALID_POSITION_ERROR = 'invalid';
 export interface IsValidResult {
   isValid: boolean;
   error: string | null;
 }
 type Navigate = {
-  [key in Cmd]: (
+  [key in Command]: (
     currentPos: Position,
     newPos?: Position,
   ) => Position | undefined;
 };
 
 const navigate: Navigate = {
-  [Cmd.SHOW]: (currentPos: Position) => {
+  [Command.REPORT]: (currentPos: Position) => {
     return currentPos;
   },
-  [Cmd.PLACE]: (_: Position, newPos?: Position) => {
+  [Command.PLACE]: (_: Position, newPos?: Position) => {
     return newPos;
   },
-  [Cmd.LEFT]: (currentPos: Position) => {
-    return currentPos;
+  [Command.RIGHT]: (currentPos: Position) => {
+    const directionArr = Object.values(Direction);
+    const currentDir = currentPos.d;
+    const currentDirIndex = directionArr.indexOf(currentDir);
+    const newDirIndex = (currentDirIndex + 1) % directionArr.length;
+    const newDir = directionArr[newDirIndex];
+    return new Position(currentPos.x, currentPos.y, newDir);
   },
-  [Cmd.RIGHT]: (currentPos: Position) => {
-    return currentPos;
+  [Command.LEFT]: (currentPos: Position) => {
+    const directionArr = Object.values(Direction);
+    const numDirections = directionArr.length;
+    const currentDir = currentPos.d;
+    const currentDirIndex = directionArr.indexOf(currentDir);
+    const newDirIndex =
+      (((currentDirIndex - 1) % numDirections) + numDirections) % numDirections;
+    const newDir = directionArr[newDirIndex];
+    return new Position(currentPos.x, currentPos.y, newDir);
   },
-  [Cmd.MOVE]: (currentPos: Position) => {
+  [Command.MOVE]: (currentPos: Position) => {
     switch (currentPos.d) {
       case Direction.NORTH: {
         return new Position(currentPos.x, currentPos.y + 1, currentPos.d);
@@ -75,7 +87,7 @@ export class Table {
 
   getNextPosition(
     currentPos: Position,
-    cmd: Cmd,
+    cmd: Command,
     newPos?: Position,
   ): Position | undefined {
     return navigate[cmd](currentPos, newPos);

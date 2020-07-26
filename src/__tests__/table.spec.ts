@@ -4,7 +4,7 @@ import 'jest';
 import { Table, INVALID_POSITION_ERROR } from '../table';
 import { Direction } from '../direction';
 import { Position } from '../position';
-import { Cmd } from '../commands';
+import { Command } from '../commands';
 
 let table: Table;
 let tableSize: number;
@@ -55,46 +55,46 @@ describe('table functionality', () => {
   it('should calculate next position correctly', () => {
     const nextPositionTestData: [
       Position,
-      Cmd,
+      Command,
       Position | undefined,
       Position,
     ][] = [
       [
         new Position(0, 2, Direction.NORTH),
-        Cmd.PLACE,
+        Command.PLACE,
         new Position(0, 2, Direction.SOUTH),
         new Position(0, 2, Direction.SOUTH),
       ],
       // y axis movements
       [
         new Position(0, tableSize - 2, Direction.NORTH),
-        Cmd.MOVE,
+        Command.MOVE,
         undefined,
         new Position(0, tableSize - 1, Direction.NORTH),
       ],
       [
         new Position(0, tableSize - 1, Direction.SOUTH),
-        Cmd.MOVE,
+        Command.MOVE,
         undefined,
         new Position(0, tableSize - 2, Direction.SOUTH),
       ],
       // x axis movements
       [
         new Position(tableSize - 2, 0, Direction.EAST),
-        Cmd.MOVE,
+        Command.MOVE,
         undefined,
         new Position(tableSize - 1, 0, Direction.EAST),
       ],
       [
         new Position(tableSize - 1, 0, Direction.WEST),
-        Cmd.MOVE,
+        Command.MOVE,
         undefined,
         new Position(tableSize - 2, 0, Direction.WEST),
       ],
     ];
     table.getNextPosition(
       new Position(0, 2, Direction.NORTH),
-      Cmd.PLACE,
+      Command.PLACE,
       undefined,
     );
     nextPositionTestData.forEach(([currentPos, cmd, newPos, expectedPos]) => {
@@ -104,19 +104,40 @@ describe('table functionality', () => {
     });
   });
 
-  // it('should turn right', () => {
-  //   const dirs = Object.values(Direction);
-  //   const currentDir = Direction.WEST;
-  //   const currentDirIndex = dirs.indexOf(currentDir);
-  //   const newDirIndex = (currentDirIndex + 1) % dirs.length;
-  //   const newDir = dirs[newDirIndex];
-  // });
-  // it('should turn left', () => {
-  //   const dirs = Object.values(Direction);
-  //   const currentDir = Direction.SOUTH;
-  //   const currentDirIndex = dirs.indexOf(currentDir);
-  //   const newDirIndex =
-  //     (((currentDirIndex - 1) % dirs.length) + dirs.length) % dirs.length;
-  //   const newDir = dirs[newDirIndex];
-  // });
+  it('should turn right', () => {
+    const directions = Object.values(Direction);
+    directions.forEach((dir: Direction, index: number) => {
+      const expectedDirection = [
+        Direction.EAST,
+        Direction.SOUTH,
+        Direction.WEST,
+        Direction.NORTH,
+      ];
+      expect(
+        table.getNextPosition(new Position(0, 0, dir), Command.RIGHT),
+      ).toEqual(new Position(0, 0, expectedDirection[index]));
+    });
+  });
+
+  it('should turn left', () => {
+    const directions = Object.values(Direction);
+    directions.forEach((dir: Direction, index: number) => {
+      const expectedDirection = [
+        Direction.WEST,
+        Direction.NORTH,
+        Direction.EAST,
+        Direction.SOUTH,
+      ];
+      expect(
+        table.getNextPosition(new Position(0, 0, dir), Command.LEFT),
+      ).toEqual(new Position(0, 0, expectedDirection[index]));
+    });
+  });
+
+  it('should report current pos', () => {
+    const currentPos = new Position(1, 2, Direction.NORTH);
+    expect(table.getNextPosition(currentPos, Command.REPORT)).toEqual(
+      currentPos,
+    );
+  });
 });
